@@ -43,15 +43,15 @@ def run_web_server():
 
 # ────────────── Telegram Bot Logic ──────────────
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # បង្កើតបញ្ជីរាយនាម Extension យកមកបង្ហាញជាទម្រង់អត្ថបទ
-    extensions_list = (
-        "🛡️ **សួស្តី! ខ្ញុំជា Bot ការពារសហគមន៍ពីឯកសារមេរោគ។**\n\n"
+    await update.message.reply_text(
+        "👋 **សួស្តី! ខ្ញុំជា Bot ការពារសហគមន៍ពីឯកសារមេរោគ។**\n\n"
         "ឯកសារទាំងអស់ដែលមាន Extension ដូចខាងក្រោម នឹងត្រូវលុបចេញដោយស្វ័យប្រវត្តិពី Telegram Group របស់អ្នក៖\n\n"
         "• **Executables & Scripts:** `.exe`, `.com`, `.scr`, `.msi`, `.msp`, `.bat`, `.cmd`, `.vbs`, `.vbe`, `.js`, `.jse`, `.wsf`, `.wsh`\n"
         "• **PowerShell Scripts:** `.ps1`, `.ps1xml`, `.ps2`, `.ps2xml`, `.psc1`, `.psc2`, `.msh`, `.msh1`, `.msh2`, `.mshxml`, `.msh1xml`, `.msh2xml`\n"
         "• **System / Shortcuts:** `.msc`, `.cpl`, `.appx`, `.appxbundle`, `.msix`, `.msixbundle`, `.application`, `.gadget`, `.lnk`, `.url`, `.inf`, `.reg`, `.scf`, `.pif`\n"
         "• **Office Macros:** `.docm`, `.xlsm`, `.pptm`, `.dotm`, `.xltm`, `.xlam`, `.potm`, `.ppam`, `.sldm`\n"
-        "• **Disks & Archives:** `.iso`, `.img`, `.vhd`, `.vhdx`, `.jar`, `.hta`, `.chm`"
+        "• **Disks & Archives:** `.iso`, `.img`, `.vhd`, `.vhdx`, `.jar`, `.hta`, `.chm`",
+        parse_mode="Markdown"
     )
 
 async def scan_and_protect(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -66,10 +66,12 @@ async def scan_and_protect(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 await context.bot.send_message(
                     chat_id=message.chat_id,
                     text=(
-                        f"🚨 **រកឃើញមេរោគ ឬឯកសារមានគ្រោះថ្នាក់!**\n\n"
+                        f"🚨 រកឃើញមេរោគ ឬឯកសារមានគ្រោះថ្នាក់!**\n\n"
                         f"👤 អ្នកផ្ញើ: @{message.from_user.username or message.from_user.first_name}\n"
                         f"📁 ឯកសារ: `{file_name}`\n\n"
                         f"🛡️ ឯកសារនេះត្រូវបានលុបចេញដោយស្វ័យប្រវត្តិដើម្បីសុវត្ថិភាពសហគមន៍!"
+                       f"🛡️ ប្រើប្រាស់: @{bot_username} ដើម្បីការពារ Group Telegram របស់អ្នក"
+                        f"🛡️ Channel Telgram របស់អគ្គនាយកដ្ឋានរតនាគារជាតិ t.me/GDNTTREADURY"
                     ),
                     parse_mode="Markdown"
                 )
