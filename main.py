@@ -9,7 +9,7 @@ logging.basicConfig(
 )
 
 # ដាក់ Token របស់ Bot ដែលបានពី BotFather ទីនេះ
-TOKEN = "YOUR_BOT_TOKEN_HERE"
+TOKEN = "8969305162:AAFQFNUWq6jAy6mzsf4L8q2pcrRtt8FrzVI"
 
 # បញ្ជីប្រភេទឯកសារដែលអាចមានហានិភ័យខ្ពស់ (អាចបន្ថែមតាមតម្រូវការ)
 DANGEROUS_EXTENSIONS = ['.exe', '.scr', '.bat', '.cmd', '.pif', '.js', '.vbs']
