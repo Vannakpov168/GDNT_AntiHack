@@ -3,7 +3,7 @@ import os
 import threading
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from telegram import Update
-from telegram.ext import ApplicationBuilder, ContextTypes, MessageHandler, filters
+from telegram.ext import ApplicationBuilder, ContextTypes, MessageHandler, CommandHandler, filters
 
 # បើកប្រព័ន្ធ Logging
 logging.basicConfig(
@@ -31,6 +31,11 @@ def run_web_server():
     httpd.serve_forever()
 
 # ────────────── Telegram Bot Logic ──────────────
+async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text(
+        "👋 សួស្តី! ខ្ញុំជា Bot ការពារសហគមន៍ពីឯកសារមេរោគ។ ខ្ញុំកំពុងដំណើរការការពារ Group របស់អ្នកហើយ!"
+    )
+
 async def scan_and_protect(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message = update.message
     if message and message.document:
@@ -64,6 +69,9 @@ def main():
 
     # បង្កើត Application របស់ Telegram Bot
     application = ApplicationBuilder().token(TOKEN).build()
+    
+    # បន្ថែម Handlers
+    application.add_handler(CommandHandler("start", start_command))
     application.add_handler(MessageHandler(filters.Document.ALL & (~filters.COMMAND), scan_and_protect))
 
     print("🤖 Bot កំពុងដំណើរការ និងត្រៀមទប់ស្កាត់មេរោគ...")
