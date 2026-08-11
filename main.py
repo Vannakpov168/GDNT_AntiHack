@@ -70,23 +70,23 @@ async def scan_and_protect(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 bot_info = await context.bot.get_me()
                 bot_username = bot_info.username
                 
-                # 3. រៀបចំអត្ថបទ (កែប្រែ Markdown Link ឱ្យត្រូវ)
+                # 3. រៀបចំអត្ថបទជាទម្រង់ HTML (សុវត្ថិភាពខ្ពស់ មិនគាំងជាមួយសញ្ញា _ )
                 user_mention = f"@{message.from_user.username}" if message.from_user.username else message.from_user.first_name
                 
                 warning_text = (
-                    f"🚨 **រកឃើញមេរោគ ឬឯកសារមានគ្រោះថ្នាក់!**\n\n"
+                    f"🚨 <b>រកឃើញមេរោគ ឬឯកសារមានគ្រោះថ្នាក់!</b>\n\n"
                     f"👤 អ្នកផ្ញើ: {user_mention}\n"
-                    f"📁 ឯកសារ: `{file_name}`\n\n"
+                    f"📁 ឯកសារ: <code>{file_name}</code>\n\n"
                     f"🛡️ ឯកសារនេះត្រូវបានលុបចេញដោយស្វ័យប្រវត្តិដើម្បីសុវត្ថិភាពសហគមន៍!\n"
                     f"🛡️ ប្រើប្រាស់: @{bot_username} ដើម្បីការពារ Group Telegram របស់អ្នក\n"
-                    f"📢 Channel Telegram របស់អគ្គនាយកដ្ឋានរតនាគារជាតិ: [t.me/GDNTTREADURY](https://t.me/GDNTTREADURY)"
+                    f'📢 Channel Telegram របស់អគ្គនាយកដ្ឋានរតនាគារជាតិ: <a href="https://t.me/GDNTTREADURY">t.me/GDNTTREADURY</a>'
                 )
 
                 # 4. ផ្ញើសារព្រមាន
                 await context.bot.send_message(
                     chat_id=message.chat_id,
                     text=warning_text,
-                    parse_mode="Markdown",
+                    parse_mode="HTML",
                     disable_web_page_preview=True
                 )
             except Exception as e:
