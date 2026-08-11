@@ -73,13 +73,13 @@ async def scan_and_protect(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 # 3. រៀបចំអត្ថបទជាទម្រង់ HTML (សុវត្ថិភាពខ្ពស់ មិនគាំងជាមួយសញ្ញា _ )
                 user_mention = f"@{message.from_user.username}" if message.from_user.username else message.from_user.first_name
                 
-                warning_text = (
+             warning_text = (
                     f"🚨 <b>រកឃើញមេរោគ ឬឯកសារមានគ្រោះថ្នាក់!</b>\n\n"
                     f"👤 អ្នកផ្ញើ: {user_mention}\n"
                     f"📁 ឯកសារ: <code>{file_name}</code>\n\n"
                     f"🛡️ ឯកសារនេះត្រូវបានលុបចេញដោយស្វ័យប្រវត្តិដើម្បីសុវត្ថិភាពសហគមន៍!\n"
                     f"🛡️ ប្រើប្រាស់: @{bot_username} ដើម្បីការពារ Group Telegram របស់អ្នក\n"
-                    f'📢 Channel Telegram របស់អគ្គនាយកដ្ឋានរតនាគារជាតិ: <a href="https://t.me/GDNTTREADURY">t.me/GDNTTREADURY</a>'
+                    f'📢 Channel Telegram របស់អគ្គនាយកដ្ឋានរតនាគារជាតិ: <a href="https://t.me/GDNTREASURY">t.me/GDNTREASURY</a>'
                 )
 
                 # 4. ផ្ញើសារព្រមាន
