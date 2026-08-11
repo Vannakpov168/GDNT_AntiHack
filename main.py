@@ -14,7 +14,7 @@ logging.basicConfig(
 TOKEN = os.getenv("TOKEN")
 PORT = int(os.getenv("PORT", 10000))
 
-# បញ្ជីប្រភេទឯកសារដែលមានហានិភ័យ និងមេរោគទាំងអស់ (បានអាប់ដេតថ្មី)
+# បញ្ជីប្រភេទឯកសារដែលមានហានិភ័យ និងមេរោគទាំងអស់
 DANGEROUS_EXTENSIONS = [
     # Executables & Scripts
     '.exe', '.com', '.scr', '.msi', '.msp', '.bat', '.cmd', '.vbs', '.vbe', '.js', '.jse', '.wsf', '.wsh',
@@ -29,7 +29,7 @@ DANGEROUS_EXTENSIONS = [
     '.iso', '.img', '.vhd', '.vhdx', '.jar', '.hta', '.chm'
 ]
 
-# ────────────── Web Server សម្រាប់ Render ចាប់យក Port ──────────────
+# ────────────── Web Server សម្រាប់ Render និង UptimeRobot ──────────────
 class SimpleHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
@@ -37,8 +37,15 @@ class SimpleHandler(BaseHTTPRequestHandler):
         self.wfile.write(b"Bot is running successfully!")
 
     def do_HEAD(self):
+        # គាំទ្រ HEAD Request ដើម្បីដោះស្រាយ Error 501 ជាមួយ UptimeRobot
         self.send_response(200)
         self.end_headers()
+
+def run_web_server():
+    server_address = ('0.0.0.0', PORT)
+    httpd = HTTPServer(server_address, SimpleHandler)
+    logging.info(f"Starting web server on port {PORT}...")
+    httpd.serve_forever()
 
 # ────────────── Telegram Bot Logic ──────────────
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -94,7 +101,7 @@ def main():
         print("❌ កំហុស៖ រកមិនឃើញ TOKEN នៅក្នុង Environment Variables ទេ!")
         return
 
-    # ចាប់ផ្តើម Web Server ក្នុង Background Thread ដើម្បីបើក Port ឱ្យ Render
+    # ចាប់ផ្តើម Web Server ក្នុង Background Thread
     server_thread = threading.Thread(target=run_web_server, daemon=True)
     server_thread.start()
 
