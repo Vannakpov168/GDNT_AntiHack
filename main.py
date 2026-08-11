@@ -14,9 +14,20 @@ logging.basicConfig(
 TOKEN = os.getenv("TOKEN")
 PORT = int(os.getenv("PORT", 10000))
 
-# បញ្ជីប្រភេទឯកសារដែលមានហានិភ័យខ្ពស់
-DANGEROUS_EXTENSIONS = ['.exe', '.scr', '.bat', '.cmd', '.pif', '.js', '.vbs']
-
+# បញ្ជីប្រភេទឯកសារដែលមានហានិភ័យ និងមេរោគទាំងអស់ (បានអាប់ដេតថ្មី)
+DANGEROUS_EXTENSIONS = [
+    # Executables & Scripts
+    '.exe', '.com', '.scr', '.msi', '.msp', '.bat', '.cmd', '.vbs', '.vbe', '.js', '.jse', '.wsf', '.wsh',
+    # PowerShell Scripts
+    '.ps1', '.ps1xml', '.ps2', '.ps2xml', '.psc1', '.psc2', '.msh', '.msh1', '.msh2', '.mshxml', '.msh1xml', '.msh2xml',
+    # System / App Packages / Shortcuts
+    '.msc', '.cpl', '.appx', '.appxbundle', '.msix', '.msixbundle', '.application', '.gadget',
+    '.lnk', '.url', '.inf', '.reg', '.scf', '.pif',
+    # Macro-enabled Office Documents
+    '.docm', '.xlsm', '.pptm', '.dotm', '.xltm', '.xlam', '.potm', '.ppam', '.sldm',
+    # Disks, Archives & Others
+    '.iso', '.img', '.vhd', '.vhdx', '.jar', '.hta', '.chm'
+]
 # ────────────── Web Server សម្រាប់ Render ចាប់យក Port ──────────────
 class SimpleHandler(BaseHTTPRequestHandler):
     def do_GET(self):
