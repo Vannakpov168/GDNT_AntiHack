@@ -1,37 +1,46 @@
 import logging
+import os
+import threading
+from http.server import HTTPServer, BaseHTTPRequestHandler
 from telegram import Update
 from telegram.ext import ApplicationBuilder, ContextTypes, MessageHandler, filters
 
-# បើកប្រព័ន្ធ Logging ដើម្បីមើលដំណាក់កាលរបស់ Bot
+# បើកប្រព័ន្ធ Logging
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
 )
 
-# ដាក់ Token របស់ Bot ដែលបានពី BotFather ទីនេះ
-TOKEN = "8969305162:AAFQFNUWq6jAy6mzsf4L8q2pcrRtt8FrzVI"
+TOKEN = os.getenv("TOKEN")
+PORT = int(os.getenv("PORT", 10000))
 
-# បញ្ជីប្រភេទឯកសារដែលអាចមានហានិភ័យខ្ពស់ (អាចបន្ថែមតាមតម្រូវការ)
+# បញ្ជីប្រភេទឯកសារដែលមានហានិភ័យខ្ពស់
 DANGEROUS_EXTENSIONS = ['.exe', '.scr', '.bat', '.cmd', '.pif', '.js', '.vbs']
 
+# ────────────── Web Server សម្រាប់ Render ចាប់យក Port ──────────────
+class SimpleHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(b"Bot is running successfully!")
+
+def run_web_server():
+    server_address = ('0.0.0.0', PORT)
+    httpd = HTTPServer(server_address, SimpleHandler)
+    logging.info(f"Starting web server on port {PORT}...")
+    httpd.serve_forever()
+
+# ────────────── Telegram Bot Logic ──────────────
 async def scan_and_protect(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message = update.message
-    
-    # ពិនិត្យមើលថាតើមានឯកសារ (Document) ឬកម្មវិធី (Audio/Video ដែលខុសប្រក្រតី) ដែរឬទេ
-    if message.document:
+    if message and message.document:
         file_name = message.document.file_name.lower()
-        file_id = message.document.file_id
-        
-        # ពិនិត្យนามสกุลឯកសារ (Extension)
         is_dangerous = any(file_name.endswith(ext) for ext in DANGEROUS_EXTENSIONS)
         
         if is_dangerous:
             try:
-                # ១. លុបសារដែលមានផ្ទុកឯកសារមេរោគនោះចោលភ្លាមៗ
                 await message.delete()
-                
-                # ២. ផ្ញើសារជូនដំណឹងទៅក្នុង Group
-                warning_msg = await context.bot.send_message(
+                await context.bot.send_message(
                     chat_id=message.chat_id,
                     text=(
                         f"🚨 **រកឃើញមេរោគ ឬឯកសារមានគ្រោះថ្នាក់!**\n\n"
@@ -41,24 +50,23 @@ async def scan_and_protect(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     ),
                     parse_mode="Markdown"
                 )
-                
-                # (ជាជម្រើស) លុបសារជូនដំណឹងវិញបន្ទាប់ពី ១០វិនាទី ដើម្បីកុំឱ្យញាំញីក្នុងกลุ่ม
-                # context.job_queue.run_once(delete_warning, 10, data=warning_msg)
-                
             except Exception as e:
-                logging.error(f"មិនអាចលុបសារបានទេ៖ {e} (សូមឆែកមើលសិទ្ធិ Admin របស់ Bot)")
+                logging.error(f"មិនអាចលុបសារបានទេ៖ {e}")
 
 def main():
-    # បង្កើត Application របស់ Bot
-    application = ApplicationBuilder().token(TOKEN).build()
+    if not TOKEN:
+        print("❌ កំហុស៖ រកមិនឃើញ TOKEN នៅក្នុង Environment Variables ទេ!")
+        return
 
-    # បន្ថែម Handler ដើម្បីចាប់យកាល់តែមានឯកសារផ្ញើចូល Group/Channel
-    # filters.Document.ALL គឺសម្រាប់ចាប់យករាល់ File ទាំងអស់
+    # ចាប់ផ្តើម Web Server ក្នុង Background Thread ដើម្បីបើក Port ឱ្យ Render
+    server_thread = threading.Thread(target=run_web_server, daemon=True)
+    server_thread.start()
+
+    # បង្កើត Application របស់ Telegram Bot
+    application = ApplicationBuilder().token(TOKEN).build()
     application.add_handler(MessageHandler(filters.Document.ALL & (~filters.COMMAND), scan_and_protect))
 
     print("🤖 Bot កំពុងដំណើរការ និងត្រៀមទប់ស្កាត់មេរោគ...")
-    
-    # ចាប់ផ្តើមដំណើរការ Bot
     application.run_polling()
 
 if __name__ == '__main__':
