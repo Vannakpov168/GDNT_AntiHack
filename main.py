@@ -45,7 +45,7 @@ def run_web_server():
 # ────────────── Telegram Bot Logic ──────────────
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        "👋 <b>👋 សួស្តី! ខ្ញុំជា Bot ការពារ Group ពីមេរោគ</b>\n\n"
+        "👋 <b>សួស្តី! ខ្ញុំជា Bot ការពារ Group ពីមេរោគ</b>\n\n"
         "ឯកសារទាំងអស់ដែលមាន Extension ដូចខាងក្រោម នឹងត្រូវលុបចេញដោយស្វ័យប្រវត្តិពី Telegram Group របស់អ្នក៖\n\n"
         "📁 <b>Executables & Scripts:</b> <code>.exe</code>, <code>.com</code>, <code>.scr</code>, <code>.msi</code>, <code>.msp</code>, <code>.bat</code>, <code>.cmd</code>, <code>.vbs</code>, <code>.vbe</code>, <code>.js</code>, <code>.jse</code>, <code>.wsf</code>, <code>.wsh</code>\n\n"
         "📁 <b>PowerShell Scripts:</b> <code>.ps1</code>, <code>.ps1xml</code>, <code>.ps2</code>, <code>.ps2xml</code>, <code>.psc1</code>, <code>.psc2</code>, <code>.msh</code>, <code>.msh1</code>, <code>.msh2</code>, <code>.mshxml</code>, <code>.msh1xml</code>, <code>.msh2xml</code>\n\n"
@@ -63,14 +63,13 @@ async def scan_and_protect(update: Update, context: ContextTypes.DEFAULT_TYPE):
         
         if is_dangerous:
             try:
-                # 1. លុបសារឯកសារមេរោគ
+                # 1. លុបសារឯកសារមេរោគចេញស្ងាត់ៗ
                 await message.delete()
                 
-                # 2. ទាញយក Username របស់ Bot 
+                # 💡 ប្រសិនបើថ្ងៃក្រោយចង់ឱ្យ Bot ផ្ញើសារព្រមានឡើងវិញ គ្រាន់តែលុបសញ្ញា """ ដើម និងចុងចេញ៖
+                """
                 bot_info = await context.bot.get_me()
                 bot_username = bot_info.username
-                
-                # 3. រៀបចំអត្ថបទជាទម្រង់ HTML
                 user_mention = f"@{message.from_user.username}" if message.from_user.username else message.from_user.first_name
                 
                 warning_text = (
@@ -82,13 +81,13 @@ async def scan_and_protect(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     f'📢 Channel Telegram របស់អគ្គនាយកដ្ឋានរតនាគារជាតិ: <a href="https://t.me/GDNTREASURY">t.me/GDNTREASURY</a>'
                 )
 
-                # 4. ផ្ញើសារព្រមាន
                 await context.bot.send_message(
                     chat_id=message.chat_id,
                     text=warning_text,
                     parse_mode="HTML",
                     disable_web_page_preview=True
                 )
+                """
             except Exception as e:
                 logging.error(f"Error in scan_and_protect: {e}")
 
