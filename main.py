@@ -28,6 +28,7 @@ DANGEROUS_EXTENSIONS = [
     # Disks, Archives & Others
     '.iso', '.img', '.vhd', '.vhdx', '.jar', '.hta', '.chm'
 ]
+
 # ────────────── Web Server សម្រាប់ Render ចាប់យក Port ──────────────
 class SimpleHandler(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -63,15 +64,19 @@ async def scan_and_protect(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if is_dangerous:
             try:
                 await message.delete()
+                
+                # បន្ថែមការយក Username របស់ Bot មកប្រើ
+                bot_username = context.bot.username
+                
                 await context.bot.send_message(
                     chat_id=message.chat_id,
                     text=(
-                        f"🚨 រកឃើញមេរោគ ឬឯកសារមានគ្រោះថ្នាក់!**\n\n"
+                        f"🚨 **រកឃើញមេរោគ ឬឯកសារមានគ្រោះថ្នាក់!**\n\n"
                         f"👤 អ្នកផ្ញើ: @{message.from_user.username or message.from_user.first_name}\n"
                         f"📁 ឯកសារ: `{file_name}`\n\n"
-                        f"🛡️ ឯកសារនេះត្រូវបានលុបចេញដោយស្វ័យប្រវត្តិដើម្បីសុវត្ថិភាពសហគមន៍!"
-                       f"🛡️ ប្រើប្រាស់: @{bot_username} ដើម្បីការពារ Group Telegram របស់អ្នក"
-                        f"🛡️ Channel Telgram របស់អគ្គនាយកដ្ឋានរតនាគារជាតិ t.me/GDNTTREADURY"
+                        f"🛡️ ឯកសារនេះត្រូវបានលុបចេញដោយស្វ័យប្រវត្តិដើម្បីសុវត្ថិភាពសហគមន៍!\n"
+                        f"🛡️ ប្រើប្រាស់: @{bot_username} ដើម្បីការពារ Group Telegram របស់អ្នក\n"
+                        f"📢 Channel Telegram របស់អគ្គនាយកដ្ឋានរតនាគារជាតិ: t.me/GDNTTREADURY"
                     ),
                     parse_mode="Markdown"
                 )
