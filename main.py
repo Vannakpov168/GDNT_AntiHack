@@ -45,14 +45,14 @@ def run_web_server():
 # ────────────── Telegram Bot Logic ──────────────
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        "👋 **សួស្តី! ខ្ញុំជា Bot ការពារសហគមន៍ពីឯកសារមេរោគ។**\n\n"
+        "👋 <b>សួស្តី! ខ្ញុំជា Bot ការពារសហគមន៍ពីឯកសារមេរោគ។</b>\n\n"
         "ឯកសារទាំងអស់ដែលមាន Extension ដូចខាងក្រោម នឹងត្រូវលុបចេញដោយស្វ័យប្រវត្តិពី Telegram Group របស់អ្នក៖\n\n"
-        "📁 **Executables & Scripts:** `.exe`, `.com`, `.scr`, `.msi`, `.msp`, `.bat`, `.cmd`, `.vbs`, `.vbe`, `.js`, `.jse`, `.wsf`, `.wsh`\n\n"
-        "📁 **PowerShell Scripts:** `.ps1`, `.ps1xml`, `.ps2`, `.ps2xml`, `.psc1`, `.psc2`, `.msh`, `.msh1`, `.msh2`, `.mshxml`, `.msh1xml`, `.msh2xml`\n\n"
-        "📁 **System / Shortcuts:** `.msc`, `.cpl`, `.appx`, `.appxbundle`, `.msix`, `.msixbundle`, `.application`, `.gadget`, `.lnk`, `.url`, `.inf`, `.reg`, `.scf`, `.pif`\n\n"
-        "📁 **Office Macros:** `.docm`, `.xlsm`, `.pptm`, `.dotm`, `.xltm`, `.xlam`, `.potm`, `.ppam`, `.sldm`\n\n"
-        "📁 **Disks & Archives:** `.iso`, `.img`, `.vhd`, `.vhdx`, `.jar`, `.hta`, `.chm`",
-        parse_mode="Markdown"
+        "📁 <b>Executables & Scripts:</b> <code>.exe</code>, <code>.com</code>, <code>.scr</code>, <code>.msi</code>, <code>.msp</code>, <code>.bat</code>, <code>.cmd</code>, <code>.vbs</code>, <code>.vbe</code>, <code>.js</code>, <code>.jse</code>, <code>.wsf</code>, <code>.wsh</code>\n\n"
+        "📁 <b>PowerShell Scripts:</b> <code>.ps1</code>, <code>.ps1xml</code>, <code>.ps2</code>, <code>.ps2xml</code>, <code>.psc1</code>, <code>.psc2</code>, <code>.msh</code>, <code>.msh1</code>, <code>.msh2</code>, <code>.mshxml</code>, <code>.msh1xml</code>, <code>.msh2xml</code>\n\n"
+        "📁 <b>System / Shortcuts:</b> <code>.msc</code>, <code>.cpl</code>, <code>.appx</code>, <code>.appxbundle</code>, <code>.msix</code>, <code>.msixbundle</code>, <code>.application</code>, <code>.gadget</code>, <code>.lnk</code>, <code>.url</code>, <code>.inf</code>, <code>.reg</code>, <code>.scf</code>, <code>.pif</code>\n\n"
+        "📁 <b>Office Macros:</b> <code>.docm</code>, <code>.xlsm</code>, <code>.pptm</code>, <code>.dotm</code>, <code>.xltm</code>, <code>.xlam</code>, <code>.potm</code>, <code>.ppam</code>, <code>.sldm</code>\n\n"
+        "📁 <b>Disks & Archives:</b> <code>.iso</code>, <code>.img</code>, <code>.vhd</code>, <code>.vhdx</code>, <code>.jar</code>, <code>.hta</code>, <code>.chm</code>",
+        parse_mode="HTML"
     )
 
 async def scan_and_protect(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -70,10 +70,10 @@ async def scan_and_protect(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 bot_info = await context.bot.get_me()
                 bot_username = bot_info.username
                 
-                # 3. រៀបចំអត្ថបទជាទម្រង់ HTML (សុវត្ថិភាពខ្ពស់ មិនគាំងជាមួយសញ្ញា _ )
+                # 3. រៀបចំអត្ថបទជាទម្រង់ HTML
                 user_mention = f"@{message.from_user.username}" if message.from_user.username else message.from_user.first_name
                 
-             warning_text = (
+                warning_text = (
                     f"🚨 <b>រកឃើញមេរោគ ឬឯកសារមានគ្រោះថ្នាក់!</b>\n\n"
                     f"👤 អ្នកផ្ញើ: {user_mention}\n"
                     f"📁 ឯកសារ: <code>{file_name}</code>\n\n"
