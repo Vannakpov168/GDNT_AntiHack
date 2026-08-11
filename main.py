@@ -45,7 +45,7 @@ def run_web_server():
 # ────────────── Telegram Bot Logic ──────────────
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        "👋 <b>សួស្តី! ខ្ញុំជា Bot ការពារសហគមន៍ពីឯកសារមេរោគ។</b>\n\n"
+        "👋 <b>👋 សួស្តី! ខ្ញុំជា Bot ការពារ Group ពីមេរោគ</b>\n\n"
         "ឯកសារទាំងអស់ដែលមាន Extension ដូចខាងក្រោម នឹងត្រូវលុបចេញដោយស្វ័យប្រវត្តិពី Telegram Group របស់អ្នក៖\n\n"
         "📁 <b>Executables & Scripts:</b> <code>.exe</code>, <code>.com</code>, <code>.scr</code>, <code>.msi</code>, <code>.msp</code>, <code>.bat</code>, <code>.cmd</code>, <code>.vbs</code>, <code>.vbe</code>, <code>.js</code>, <code>.jse</code>, <code>.wsf</code>, <code>.wsh</code>\n\n"
         "📁 <b>PowerShell Scripts:</b> <code>.ps1</code>, <code>.ps1xml</code>, <code>.ps2</code>, <code>.ps2xml</code>, <code>.psc1</code>, <code>.psc2</code>, <code>.msh</code>, <code>.msh1</code>, <code>.msh2</code>, <code>.mshxml</code>, <code>.msh1xml</code>, <code>.msh2xml</code>\n\n"
@@ -77,7 +77,7 @@ async def scan_and_protect(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     f"🚨 <b>រកឃើញមេរោគ ឬឯកសារមានគ្រោះថ្នាក់!</b>\n\n"
                     f"👤 អ្នកផ្ញើ: {user_mention}\n"
                     f"📁 ឯកសារ: <code>{file_name}</code>\n\n"
-                    f"🛡️ ឯកសារនេះត្រូវបានលុបចេញដោយស្វ័យប្រវត្តិដើម្បីសុវត្ថិភាពសហគមន៍!\n"
+                    f"🛡️ ឯកសារនេះត្រូវបានលុបចេញដោយស្វ័យប្រវត្តិដើម្បីសុវត្ថិភាព!\n"
                     f"🛡️ ប្រើប្រាស់: @{bot_username} ដើម្បីការពារ Group Telegram របស់អ្នក\n"
                     f'📢 Channel Telegram របស់អគ្គនាយកដ្ឋានរតនាគារជាតិ: <a href="https://t.me/GDNTREASURY">t.me/GDNTREASURY</a>'
                 )
