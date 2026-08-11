@@ -36,11 +36,9 @@ class SimpleHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(b"Bot is running successfully!")
 
-def run_web_server():
-    server_address = ('0.0.0.0', PORT)
-    httpd = HTTPServer(server_address, SimpleHandler)
-    logging.info(f"Starting web server on port {PORT}...")
-    httpd.serve_forever()
+    def do_HEAD(self):
+        self.send_response(200)
+        self.end_headers()
 
 # ────────────── Telegram Bot Logic ──────────────
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
