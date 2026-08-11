@@ -43,8 +43,15 @@ def run_web_server():
 
 # ────────────── Telegram Bot Logic ──────────────
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text(
-        "👋 សួស្តី! ខ្ញុំជា Bot ការពារសហគមន៍ពីឯកសារមេរោគ។ ខ្ញុំកំពុងដំណើរការការពារ Group របស់អ្នកហើយ!"
+    # បង្កើតបញ្ជីរាយនាម Extension យកមកបង្ហាញជាទម្រង់អត្ថបទ
+    extensions_list = (
+        "🛡️ **សួស្តី! ខ្ញុំជា Bot ការពារសហគមន៍ពីឯកសារមេរោគ។**\n\n"
+        "ឯកសារទាំងអស់ដែលមាន Extension ដូចខាងក្រោម នឹងត្រូវលុបចេញដោយស្វ័យប្រវត្តិពី Telegram Group របស់អ្នក៖\n\n"
+        "• **Executables & Scripts:** `.exe`, `.com`, `.scr`, `.msi`, `.msp`, `.bat`, `.cmd`, `.vbs`, `.vbe`, `.js`, `.jse`, `.wsf`, `.wsh`\n"
+        "• **PowerShell Scripts:** `.ps1`, `.ps1xml`, `.ps2`, `.ps2xml`, `.psc1`, `.psc2`, `.msh`, `.msh1`, `.msh2`, `.mshxml`, `.msh1xml`, `.msh2xml`\n"
+        "• **System / Shortcuts:** `.msc`, `.cpl`, `.appx`, `.appxbundle`, `.msix`, `.msixbundle`, `.application`, `.gadget`, `.lnk`, `.url`, `.inf`, `.reg`, `.scf`, `.pif`\n"
+        "• **Office Macros:** `.docm`, `.xlsm`, `.pptm`, `.dotm`, `.xltm`, `.xlam`, `.potm`, `.ppam`, `.sldm`\n"
+        "• **Disks & Archives:** `.iso`, `.img`, `.vhd`, `.vhdx`, `.jar`, `.hta`, `.chm`"
     )
 
 async def scan_and_protect(update: Update, context: ContextTypes.DEFAULT_TYPE):
